@@ -62,9 +62,20 @@ def add_product():
     next_id += 1
     print(f"Product {name} added successfully.")    
     
-
+# Step 3 — View All Products
+def view_products():
+    if not products:
+        print("No products in inventory.")
+        return
+    
+    print("\nID | Name       | Category    | Price | Quantity | Total Value")
+    for product in products:
+        print(f"ID: {product['id']}, Name: {product['name']}, Category: {product['category']}, Price: {product['price']}, Quantity: {product['quantity']}, total value: {product['price'] * product['quantity']}")
+        
        
 if __name__ == "__main__":
+    # main()  
+    # add_product()  
+    view_products()
 
-    add_product()   
-    main()  
+    
