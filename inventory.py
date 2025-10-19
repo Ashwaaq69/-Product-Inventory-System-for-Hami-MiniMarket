@@ -65,17 +65,35 @@ def add_product():
 # Step 3 — View All Products
 def view_products():
     if not products:
-        print("No products in inventory.")
+        print("📭 No products found.")
         return
-    
+
     print("\nID | Name       | Category    | Price | Quantity | Total Value")
-    for product in products:
-        print(f"ID: {product['id']}, Name: {product['name']}, Category: {product['category']}, Price: {product['price']}, Quantity: {product['quantity']}, total value: {product['price'] * product['quantity']}")
+    print("-" * 60)
+    for p in products:
+        total_value = p["price"] * p["quantity"]
+        print(f"{p['id']:2} | {p['name']:<10} | {p['category']:<10} | {p['price']:<5.2f} | {p['quantity']:<8} | {total_value:.2f}")
+
+# Step 4 — Update Product Quantity
+def update_product_quantity():
+    try:
+        product_id = int(input("Enter product ID to update quantity: "))
+        for p in products:
+            if p["id"] == product_id:
+                new_quantity = int(input(f"Enter new quantity for {p['name']}: "))
+                p["quantity"] = new_quantity
+                print(f"Quantity for {p['name']} updated to {new_quantity}.")
+                return
+        print("Product ID not found.")
+    except ValueError:
+        print("Invalid input. Please enter integer values.")  
         
-       
+   
 if __name__ == "__main__":
     # main()  
-    # add_product()  
+    add_product()  
     view_products()
+    update_product_quantity()
+
 
     
