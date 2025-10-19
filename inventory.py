@@ -31,7 +31,40 @@ def main():
         else:
             print("Invalid choice. Please try again.")
             
-            
+          
+          
+# Step 2 —  Product Feature     
+
+products = []
+next_id = 1
+def add_product():
+    global next_id
+    name = input("Enter product name: ")
+    category = input("Enter category: ")
+    
+    # input validation for price and quantity
+    while True:
+        try:
+            price = float(input("Enter price: "))
+            quantity = int(input("Enter quantity: "))
+            break
+        except ValueError:
+            print("Invalid input for price or quantity. Please enter integer values.")
+        
+    product = {
+        "id": next_id,
+        "name": name,
+        "category": category,
+        "price": price,
+        "quantity": quantity    
+    }
+    products.append(product)
+    next_id += 1
+    print(f"Product {name} added successfully.")    
+    
+
+       
 if __name__ == "__main__":
-    main()            
-                        
+
+    add_product()   
+    main()  
