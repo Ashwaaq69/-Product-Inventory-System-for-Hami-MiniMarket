@@ -27,6 +27,7 @@ def main():
         elif choice == "6":
             print("Exiting program...")
             break
+        
         else:
             print("Invalid choice. Please try again.")
             
