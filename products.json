@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "name": "mango",
+        "category": "fruit",
+        "price": 22.0,
+        "quantity": 12
+    },
+    {
+        "id": 3,
+        "name": "qaro",
+        "category": "fruit",
+        "price": 12.0,
+        "quantity": 2
+    },
+    {
+        "id": 4,
+        "name": "2",
+        "category": "ash",
+        "price": 12.0,
+        "quantity": 3
+    },
+    {
+        "id": 5,
+        "name": "mangoshake",
+        "category": "water",
+        "price": 12.0,
+        "quantity": 1
+    }
+]
