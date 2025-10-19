@@ -102,7 +102,14 @@ def delete_product():
         print("Product ID not found.")
     except ValueError:
         print("Invalid input. Please enter integer values.")              
-            
+ 
+ 
+
+
+# Step 6 — Calculate Total Stock Value     
+def calculate_total_inventory_value():
+    total_value = sum(p["price"] * p["quantity"] for p in products)
+    print(f"Total inventory value: ${total_value:.2f}")       
    
 if __name__ == "__main__":
     # main()  
@@ -110,6 +117,8 @@ if __name__ == "__main__":
     view_products()
     update_product_quantity()
     delete_product()
+    calculate_total_inventory_value()
+
 
 
     
