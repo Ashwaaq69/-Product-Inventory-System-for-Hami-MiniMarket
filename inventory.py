@@ -87,13 +87,29 @@ def update_product_quantity():
         print("Product ID not found.")
     except ValueError:
         print("Invalid input. Please enter integer values.")  
+
         
+# Step 5 delete product
+
+def delete_product():
+    try:
+        product_id = int(input("Enter product ID to delete: "))
+        for p in products:
+            if p["id"] == product_id:
+                products.remove(p)
+                print(f"Product {p['name']} deleted successfully.")
+                return
+        print("Product ID not found.")
+    except ValueError:
+        print("Invalid input. Please enter integer values.")              
+            
    
 if __name__ == "__main__":
     # main()  
     add_product()  
     view_products()
     update_product_quantity()
+    delete_product()
 
 
     
