@@ -1,45 +1,38 @@
-# Hami MiniMarket Inventory System
-
-A **Python command-line application** for managing products in a small community shop (fruits and vegetables).  
-This system allows the shopkeeper to **add, view, update, and delete products**, as well as **calculate the total inventory value**. Data is stored in a JSON file to persist across program runs.
 
 ---
 
-## Features
+## 🛠 Features
 
-- **Add Product**  
-  Add a new product with name, category, price, and quantity. Input is validated to ensure correct data types.
-  
-- **View All Products**  
-  Display all products in a **formatted table** showing ID, name, category, price, quantity, and total value.
-  
-- **Update Product Quantity**  
-  Update the stock quantity of an existing product using its ID.
+### 1. Core Features
+- Load product inventory from a JSON file (`products.json`)  
+- Display available products with price, category, and stock  
+- Add, update, or delete products from inventory  
+- Take customer orders and check stock availability  
+- Calculate subtotal, tax (5%), discount (10% if subtotal > $20), and total  
+- Generate and save receipts with timestamp (`data/receipts/`)  
 
-- **Delete Product**  
-  Remove a product from the inventory after confirmation.
+### 2. Authentication
+- Staff login required to access the system  
+- Staff credentials stored in `users.json`  
+- Function to create new staff users: `create_user()` in `users.py`  
 
-- **Calculate Total Inventory Value**  
-  Calculate the total value of all products in stock.
+### 3. Technical Requirements
+- Modular structure with separate files for inventory, orders, and authentication  
+- Input validation for numeric values, stock, and product IDs  
+- Persistent data storage in JSON files  
+- Try/except blocks handle file and input errors gracefully  
 
-- **Data Persistence**  
-  Products are saved to `products.json` automatically after every change and loaded on program start.
-
-- **Input Validation**  
-  Ensures product name and category contain letters, price and quantity are positive numbers, and product IDs are valid.
-
----
-
-## Requirements
-
-- Python 3.x
-- No external libraries required (uses built-in `json` and `os` modules)
+### 4. Optional Bonus
+- Discount system applied for orders exceeding $20  
+- Receipts include itemized list and total cost  
 
 ---
 
-## Getting Started
+## ⚙ How to Run
 
-1. **Clone the repository**
-   ```bash
-   git clonehttps://github.com/Ashwaaq69/-Product-Inventory-System-for-Hami-MiniMarket.git
- 
+1. **Create a user** (first time only):
+
+```bash
+python
+>>> from users import create_user
+>>> create_user()
