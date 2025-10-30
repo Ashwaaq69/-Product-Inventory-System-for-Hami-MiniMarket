@@ -1,0 +1,23 @@
+[
+    {
+        "id": 1,
+        "name": "mango",
+        "category": "fruit",
+        "price": 22.0,
+        "quantity": 0
+    },
+    {
+        "id": 2,
+        "name": "apple",
+        "category": "fruit",
+        "price": 4.0,
+        "quantity": 0
+    },
+    {
+        "id": 3,
+        "name": "miro",
+        "category": "2",
+        "price": 22.0,
+        "quantity": 8
+    }
+]
