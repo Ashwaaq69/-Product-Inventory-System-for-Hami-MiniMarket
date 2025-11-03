@@ -123,10 +123,12 @@ class Inventory:
             print(f"[inventory][ERROR] Failed to restock from {restock_path}: {e}", file=sys.stderr)
 
     def list_products(self) -> List[Product]:
+        
         return self.products
 
     def low_stock(self, threshold=5) -> List[Product]:
         return [p for p in self.products if p.stock < threshold]
+
 
 
 
