@@ -164,6 +164,8 @@ class App(tk.Tk):
         self.refresh_products()
         self.refresh_cart()
 
+
+
     def restock(self):
         self.inventory.restock_from_csv()
         self.inventory.load()
