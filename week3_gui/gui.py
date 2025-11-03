@@ -95,8 +95,9 @@ class App(tk.Tk):
                 iid=p.product_id,
                 values=(p.product_id, p.name, f'{p.price:.2f}', p.stock)
             )
-
         self.refresh_low_stock()
+        
+        
 
     def refresh_low_stock(self):
         lows = self.inventory.low_stock()
@@ -109,6 +110,7 @@ class App(tk.Tk):
         else:
             self.low_stock_box.insert('end', 'No low stock items')
         self.low_stock_box.config(state='disabled')
+
 
     def search_products(self):
         term = self.search_var.get().strip().lower()
