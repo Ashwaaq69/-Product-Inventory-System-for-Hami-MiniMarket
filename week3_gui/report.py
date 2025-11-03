@@ -2,23 +2,40 @@ import csv
 from datetime import datetime
 import os
 
-
 class SalesReport:
+    """
+    Manages sales reporting for Hami MiniMarket.
+    - Saves orders to CSV files per day
+    - Generates readable daily reports
+    - Generates per-customer reports
+    """
+
     def __init__(self, outdir='sales'):
+        """Initialize the SalesReport with output directory for CSV files."""
         self.outdir = outdir
         os.makedirs(self.outdir, exist_ok=True)
 
     def sales_filename(self, date: datetime):
+        """Return the filename for a given date's sales CSV."""
         return os.path.join(self.outdir, f'sales_{date.strftime("%Y-%m-%d")}.csv')
 
     def save_order(self, order_data: dict):
+        """
+        Save a completed order to the daily sales CSV.
+        Each item in the order is written as a separate row.
+        """
         dt = datetime.fromisoformat(order_data['timestamp'])
         path = self.sales_filename(dt)
         file_exists = os.path.isfile(path)
+
+        # Open CSV in append mode
         with open(path, 'a', newline='', encoding='utf-8') as f:
-            writer = csv.DictWriter(f, fieldnames=['timestamp','customer','product_id','name','price','qty','line_total'])
+            writer = csv.DictWriter(f, fieldnames=[
+                'timestamp','customer','product_id','name','price','qty','line_total'
+            ])
             if not file_exists:
                 writer.writeheader()
+            # Write each item in the order
             for it in order_data['items']:
                 writer.writerow({
                     'timestamp': order_data['timestamp'],
@@ -31,7 +48,10 @@ class SalesReport:
                 })
 
     def readable_daily_report(self, date=None):
-        """Print a readable daily report for all sales."""
+        """
+        Print a human-readable daily report for all sales.
+        Displays time, customer, product, quantity, and line total.
+        """
         if date is None:
             date = datetime.now()
         path = self.sales_filename(date)
@@ -61,6 +81,11 @@ class SalesReport:
         print(f"💰 Total Sales for the Day: ${total_sales:.2f}\n")
 
     def daily_summary(self, date: datetime):
+        """
+        Return a summary dict for a specific date.
+        - total_sales: sum of all line totals
+        - items_sold: dict mapping product name -> quantity sold
+        """
         path = self.sales_filename(date)
         summary = {'date': date.strftime('%Y-%m-%d'), 'total_sales': 0.0, 'items_sold': {}}
         try:
@@ -76,8 +101,11 @@ class SalesReport:
             pass
         return summary
 
-    # 🧾 Generate readable report per customer
     def generate_customer_report(self, customer_name: str, date: datetime = None):
+        """
+        Generate a human-readable sales report for a single customer.
+        Saves it as a text file in 'sales/readable_reports'.
+        """
         if date is None:
             date = datetime.now()
         path = self.sales_filename(date)
@@ -92,6 +120,7 @@ class SalesReport:
         total = 0.0
         report_lines = []
 
+        # Collect all purchases by the given customer
         with open(path, newline='', encoding='utf-8') as f:
             reader = csv.DictReader(f)
             for row in reader:
@@ -121,17 +150,20 @@ Line Total: ${float(row['line_total']):.2f}
         report_lines.append(f"💰 Grand Total: ${total:.2f}\n")
         report_lines.append("Thank you for shopping with Hami MiniMarket!\n")
 
+        # Save the customer report as a text file
         filename = f"{customer_name}_{date.strftime('%Y%m%d_%H%M%S')}.txt"
         report_path = os.path.join(report_dir, filename)
-
         with open(report_path, "w", encoding="utf-8") as rf:
             rf.writelines(report_lines)
 
         print(f"✅ Customer report saved: {report_path}")
         return report_path
 
-    # 🧾 Generate readable reports for all customers in a day
     def generate_reports_for_all_customers(self, date=None):
+        """
+        Generate readable reports for all customers in a day.
+        Returns a list of paths to saved reports.
+        """
         if date is None:
             date = datetime.now()
         path = self.sales_filename(date)
@@ -158,8 +190,7 @@ Line Total: ${float(row['line_total']):.2f}
         return report_paths
 
 
-# ✅ Add this block to run readable_daily_report directly
+# ----------------- Run Daily Report Example -----------------
 if __name__ == "__main__":
     report = SalesReport()
     report.readable_daily_report(datetime(2025, 11, 3))
-

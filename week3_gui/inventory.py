@@ -7,25 +7,42 @@ import sys
 
 @dataclass
 class Product:
+    """
+    Data structure for a product in the inventory.
+    """
     product_id: str
     name: str
     price: float
     stock: int
 
 class Inventory:
+    """
+    Manages the inventory of products.
+    - Load and save products to CSV
+    - Update stock
+    - Restock from CSV
+    - Query products by name or ID
+    """
+
     def __init__(self, path='inventory.csv'):
+        """
+        Initialize Inventory.
+        Loads existing inventory from CSV, or creates sample inventory if file missing.
+        """
         self.path = path
         self.products: List[Product] = []
         self.load()
 
     def _create_sample_inventory(self):
+        """
+        Creates a sample inventory CSV with default products.
+        """
         sample = [
             {'product_id':'1','name':'Espresso','price':'2.50','stock':'10'},
             {'product_id':'2','name':'Cappuccino','price':'3.00','stock':'8'},
             {'product_id':'3','name':'Latte','price':'3.50','stock':'4'},
             {'product_id':'4','name':'Mocha','price':'3.75','stock':'2'},
             {'product_id':'5','name':'Americano','price':'2.00','stock':'12'},
-            
         ]
         try:
             with open(self.path, 'w', newline='', encoding='utf-8') as f:
@@ -38,6 +55,10 @@ class Inventory:
             print(f'[inventory][ERROR] Could not create sample inventory: {e}', file=sys.stderr)
 
     def load(self):
+        """
+        Load products from CSV file.
+        If file doesn't exist, creates sample inventory.
+        """
         self.products = []
         if not os.path.isfile(self.path):
             print(f'[inventory] {self.path} not found. Creating sample inventory...', file=sys.stderr)
@@ -48,17 +69,18 @@ class Inventory:
                 reader = csv.DictReader(f)
                 expected = ['product_id','name','price','stock']
                 headers = reader.fieldnames or []
-                # basic header check
+                # Warn if headers do not match expected
                 if not all(h in headers for h in expected):
                     print(f"[inventory][WARNING] CSV headers mismatch. Found: {headers}. Expected: {expected}", file=sys.stderr)
+                
                 for r in reader:
                     try:
                         pid = r.get('product_id','').strip()
                         name = r.get('name','').strip()
                         price = float(r.get('price', 0) or 0)
                         stock = int(float(r.get('stock', 0) or 0))
+                        # fallback if product_id missing
                         if not pid:
-                            # fallback: use name as id if product_id missing
                             pid = name or f'pid-{len(self.products)+1}'
                         self.products.append(Product(product_id=pid, name=name, price=price, stock=stock))
                     except Exception as e:
@@ -67,6 +89,9 @@ class Inventory:
             print(f"[inventory][ERROR] Failed to read {self.path}: {e}", file=sys.stderr)
 
     def save(self):
+        """
+        Save current products to CSV.
+        """
         try:
             with open(self.path, 'w', newline='', encoding='utf-8') as f:
                 writer = csv.DictWriter(f, fieldnames=['product_id','name','price','stock'])
@@ -77,18 +102,30 @@ class Inventory:
             print(f"[inventory][ERROR] Failed to save {self.path}: {e}", file=sys.stderr)
 
     def get_by_name(self, name: str) -> Optional[Product]:
+        """
+        Find a product by its name (case-insensitive).
+        Returns Product or None if not found.
+        """
         for p in self.products:
             if p.name.lower() == name.lower():
                 return p
         return None
 
     def get_by_id(self, pid: str) -> Optional[Product]:
+        """
+        Find a product by its ID.
+        Returns Product or None if not found.
+        """
         for p in self.products:
             if p.product_id == pid:
                 return p
         return None
 
     def update_stock(self, product_id: str, delta: int):
+        """
+        Update stock for a product by delta (positive or negative).
+        Stock cannot go below zero.
+        """
         p = self.get_by_id(product_id)
         if p:
             p.stock += delta
@@ -97,6 +134,10 @@ class Inventory:
             self.save()
 
     def restock_from_csv(self, restock_path='restock.csv'):
+        """
+        Restock inventory from a CSV file.
+        Adds quantity to existing products or creates new ones.
+        """
         if not os.path.isfile(restock_path):
             print(f'[inventory] restock file {restock_path} not found', file=sys.stderr)
             return
@@ -112,8 +153,10 @@ class Inventory:
                         if pid:
                             p = self.get_by_id(pid)
                             if p:
+                                # update existing stock
                                 p.stock += qty
                             else:
+                                # add new product
                                 self.products.append(Product(product_id=pid, name=name or f'item-{pid}', price=price, stock=qty))
                     except Exception as e:
                         print(f"[inventory][WARN] Skipping restock row {r}: {e}", file=sys.stderr)
@@ -123,15 +166,14 @@ class Inventory:
             print(f"[inventory][ERROR] Failed to restock from {restock_path}: {e}", file=sys.stderr)
 
     def list_products(self) -> List[Product]:
-        
+        """
+        Return a list of all products.
+        """
         return self.products
 
     def low_stock(self, threshold=5) -> List[Product]:
+        """
+        Return a list of products with stock below threshold.
+        Default threshold is 5.
+        """
         return [p for p in self.products if p.stock < threshold]
-
-
-
-
-
-
-
