@@ -44,13 +44,9 @@ class App(tk.Tk):
         self.products_tree.column('stock', width=80, anchor='center')
 
         self.products_tree.pack(fill='y')
-
-
-        
         self.products_tree.heading('price', text='Price')
         self.products_tree.heading('stock', text='Stock')
         self.products_tree.pack()
-
         search_frame = ttk.Frame(left)
         search_frame.pack(fill='x', pady=4)
         self.search_var = tk.StringVar()
