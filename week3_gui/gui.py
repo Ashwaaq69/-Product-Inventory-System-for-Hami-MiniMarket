@@ -197,6 +197,8 @@ class App(tk.Tk):
         self.inventory.load()
         self.refresh_products()
         messagebox.showinfo('Restock','Restock applied from restock.csv (if exists)')
+        
+        
 
 # ----------------- Run Application -----------------
 if __name__ == '__main__':
