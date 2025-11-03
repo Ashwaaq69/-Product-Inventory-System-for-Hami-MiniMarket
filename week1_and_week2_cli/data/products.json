@@ -19,5 +19,12 @@
         "category": "2",
         "price": 22.0,
         "quantity": 8
+    },
+    {
+        "id": 4,
+        "name": "orange",
+        "category": "fruit",
+        "price": 22.0,
+        "quantity": 8
     }
 ]
