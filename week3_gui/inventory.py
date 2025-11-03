@@ -127,3 +127,9 @@ class Inventory:
 
     def low_stock(self, threshold=5) -> List[Product]:
         return [p for p in self.products if p.stock < threshold]
+
+
+
+
+
+
