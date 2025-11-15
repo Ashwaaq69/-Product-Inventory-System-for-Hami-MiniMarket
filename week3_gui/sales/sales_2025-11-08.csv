@@ -1,0 +1,6 @@
+timestamp,customer,product_id,name,price,qty,line_total
+2025-11-08T14:15:42.057522,ashuu,1,Espresso,2.5,3,7.5
+2025-11-08T14:15:42.057522,ahmed,2,Cappuccino,3.0,1,3.0
+2025-11-08T14:15:42.057522,yuusuf,3,Latte,3.5,2,7.0
+2025-11-08T14:15:42.057522,yuusuf,4,Mocha,3.75,1,3.75
+2025-11-08T14:15:42.057522,yuusuf,5,Americano,2.0,1,2.0
